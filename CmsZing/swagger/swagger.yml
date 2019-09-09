@@ -1,0 +1,478 @@
+swagger: "2.0"
+info:
+  title: beego Test API
+  description: beego has a very cool tools to autogenerate documents for your API
+  version: 1.0.0
+  termsOfService: http://beego.me/
+  contact:
+    email: astaxie@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+basePath: /v1
+paths:
+  /artists/:
+    get:
+      tags:
+      - artists
+      description: get Artists
+      operationId: ArtistsController.Get All
+      parameters:
+      - in: query
+        name: fields
+        description: Fields returned. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: searchByName
+        description: keyword
+        type: string
+      responses:
+        "200":
+          description: <br>Return success
+          schema:
+            $ref: '#/definitions/response.ArtistSwaggerResponse'
+        "403":
+          description: 850 something went wrong <br> 305  not found data <br> 851
+            incorrect field
+    post:
+      tags:
+      - artists
+      description: create Artists
+      operationId: ArtistsController.Post
+      parameters:
+      - in: body
+        name: body
+        description: body for Artists content
+        required: true
+        schema:
+          $ref: '#/definitions/models.ArtistsSwagger'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.ArtistsSwagger'
+        "403":
+          description: 221 parse json fail <br> 303 save fail <br> 217 field required
+            <br> 218 min character number required  6 <br> 219 max characters number
+            required 50
+  /artists/{id}:
+    get:
+      tags:
+      - artists
+      description: get Artists by id
+      operationId: ArtistsController.Get One
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          description: <br>Return success
+          schema:
+            $ref: '#/definitions/response.ArtistSwaggerResponse'
+        "403":
+          description: 850 something went wrong <br> 305 not exists <br> 809 must
+            be integer
+    put:
+      tags:
+      - artists
+      description: update the Artists
+      operationId: ArtistsController.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for Artists content
+        required: true
+        schema:
+          $ref: '#/definitions/models.Artists'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Artists'
+        "403":
+          description: :id is not int
+    delete:
+      tags:
+      - artists
+      description: delete the Artists
+      operationId: ArtistsController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} delete success!'
+        "403":
+          description: 850 something went wrong <br> 305 not exists <br> 809 must
+            be integer <br> id not exists
+  /songs/:
+    get:
+      tags:
+      - songs
+      description: get Songs
+      operationId: SongsController.Get All
+      parameters:
+      - in: query
+        name: query
+        description: Filter. e.g. col1:v1,col2:v2 ...
+        type: string
+      - in: query
+        name: fields
+        description: Fields returned. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: sortby
+        description: Sorted-by fields. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: order
+        description: Order corresponding to each sortby field, if single value, apply
+          to all sortby fields. e.g. desc,asc ...
+        type: string
+      - in: query
+        name: limit
+        description: Limit the size of result set. Must be an integer
+        type: string
+      - in: query
+        name: offset
+        description: Start position of result set. Must be an integer
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Songs'
+        "403":
+          description: ""
+  /songs/{id}:
+    get:
+      tags:
+      - songs
+      description: get Songs by id
+      operationId: SongsController.Get One
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Songs'
+        "403":
+          description: :id is empty
+    put:
+      tags:
+      - songs
+      description: update the Songs
+      operationId: SongsController.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for Songs content
+        required: true
+        schema:
+          $ref: '#/definitions/models.Songs'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Songs'
+        "403":
+          description: :id is not int
+    delete:
+      tags:
+      - songs
+      description: delete the Songs
+      operationId: SongsController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} delete success!'
+        "403":
+          description: id is empty
+  /songs/create:
+    post:
+      tags:
+      - songs
+      description: create Songs
+      operationId: SongsController.Post
+      parameters:
+      - in: body
+        name: body
+        description: body for Songs content
+        required: true
+        schema:
+          $ref: '#/definitions/models.SongInfo'
+      responses:
+        "201":
+          description: add success
+          schema:
+            $ref: '#/definitions/response.Response'
+        "403":
+          description: 221 parse json fail <br> 303 save failures <br> 217 field required
+            <br> 218 not enough characters required <br> 219 name max 125 characters
+  /songs/file/upload/image:
+    post:
+      tags:
+      - songs
+      parameters:
+      - in: formData
+        name: image
+        description: the image to upload :jpg,png
+        required: true
+        type: file
+      responses:
+        "200":
+          description: upload success!
+          schema:
+            $ref: '#/definitions/response.Response'
+        "403":
+          description: 800 failures upload <br> 809 Incorrect file format <br> 999
+            max size is 2MB <br> 305 file not found
+  /songs/file/upload/music:
+    post:
+      tags:
+      - songs
+      parameters:
+      - in: formData
+        name: music
+        description: 'the image to upload : .mp3'
+        required: true
+        type: file
+      responses:
+        "200":
+          description: upload success!
+          schema:
+            $ref: '#/definitions/response.Response'
+        "403":
+          description: 800 failures upload <br> 809 Incorrect file format <br> 305
+            file not found
+definitions:
+  125.0xc0002a93e0.false:
+    title: "false"
+    type: object
+  154.0xc0002a9410.false:
+    title: "false"
+    type: object
+  183.0xc0002a9440.false:
+    title: "false"
+    type: object
+  298.0xc0002a94d0.false:
+    title: "false"
+    type: object
+  367.0xc0002a9530.false:
+    title: "false"
+    type: object
+  models.ArtistSong:
+    title: ArtistSong
+    type: object
+    properties:
+      ArtistId:
+        type: integer
+        format: int64
+      CreatedAt:
+        type: string
+        format: datetime
+      Id:
+        type: integer
+        format: int64
+      IsDeleted:
+        type: integer
+        format: int64
+      SongId:
+        type: integer
+        format: int64
+      UpdatedAt:
+        type: string
+        format: datetime
+  models.Artists:
+    title: Artists
+    type: object
+    properties:
+      "":
+        type: string
+  models.ArtistsSwagger:
+    title: ArtistsSwagger
+    type: object
+    properties:
+      AvatarUrl:
+        type: string
+      Biography:
+        type: string
+      Birthday:
+        type: string
+      Country:
+        type: string
+      Followers:
+        type: integer
+        format: int64
+      Fullname:
+        type: string
+      Id:
+        type: integer
+        format: int64
+      Songs:
+        type: array
+        items:
+          type: string
+  models.Migrations:
+    title: Migrations
+    type: object
+    properties:
+      CreatedAt:
+        description: date migrated or rolled back
+        type: string
+        format: datetime
+      Id:
+        description: surrogate key
+        type: integer
+        format: int64
+      Name:
+        description: migration name, unique
+        type: string
+      RollbackStatements:
+        description: SQL statment for rolling back migration
+        type: string
+      Statements:
+        description: SQL statements for this migration
+        type: string
+      Status:
+        description: update indicates it is a normal migration while rollback means
+          this migration is rolled back
+        type: string
+  models.Singer:
+    title: Singer
+    type: object
+    properties:
+      Id:
+        type: integer
+        format: int64
+      Name:
+        type: string
+  models.SongInfo:
+    title: SongInfo
+    type: object
+    properties:
+      Id:
+        type: integer
+        format: int64
+      ImageUrl:
+        type: string
+      Kind:
+        type: string
+      LrcUrl:
+        type: string
+      Lyrics:
+        type: string
+      MusicUrl:
+        type: string
+      Name:
+        type: string
+      Released:
+        type: string
+      Singer:
+        type: array
+        items:
+          $ref: '#/definitions/models.Singer'
+  models.Songs:
+    title: Songs
+    type: object
+    properties:
+      CreatedAt:
+        type: string
+        format: datetime
+      CreatedUserId:
+        type: integer
+        format: int64
+      Id:
+        type: integer
+        format: int64
+      IdSinger:
+        type: integer
+        format: int64
+      ImageUrl:
+        type: string
+      IsDeleted:
+        type: integer
+        format: int64
+      Kind:
+        type: string
+      LrcUrl:
+        type: string
+      Lyrics:
+        type: string
+      MusicUrl:
+        type: string
+      Name:
+        type: string
+      Released:
+        type: string
+      SingerName:
+        type: string
+      UpdatedAt:
+        type: string
+        format: datetime
+      UpdatedUserId:
+        type: integer
+        format: int64
+  response.ArtistSwaggerResponse:
+    title: ArtistSwaggerResponse
+    type: object
+    properties:
+      Code:
+        type: string
+      Data:
+        type: array
+        items:
+          $ref: '#/definitions/models.ArtistsSwagger'
+      DetailErrorCode:
+        $ref: '#/definitions/367.0xc0002a9530.false'
+      Message:
+        $ref: '#/definitions/298.0xc0002a94d0.false'
+      Success:
+        type: string
+  response.Response:
+    title: Response
+    type: object
+    properties:
+      Code:
+        type: string
+      Data:
+        $ref: '#/definitions/154.0xc0002a9410.false'
+      DetailErrorCode:
+        $ref: '#/definitions/183.0xc0002a9440.false'
+      Message:
+        $ref: '#/definitions/125.0xc0002a93e0.false'
+      Success:
+        type: string
+tags:
+- name: artists
+  description: |
+    ArtistsController operations for Artists
+- name: songs
+  description: |
+    SongsController operations for Songs

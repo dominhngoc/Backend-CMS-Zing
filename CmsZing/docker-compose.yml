@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: zing_cms_mysql
+    ports:
+      - 3407:3306
+    volumes:
+      - ~/.cms_zing/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=cms_zing
+      - MYSQL_ROOT_PASSWORD=root
+
